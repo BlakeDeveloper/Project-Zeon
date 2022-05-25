@@ -1,4 +1,5 @@
 from asyncio import subprocess
+import psutil
 from rich import print
 from rich.prompt import Prompt
 from time import sleep
@@ -23,71 +24,117 @@ Please select a option from the menu below:
 5: Install pip packages. [Use spaces to seperate packages.]
 6: Install apt packages. [Use spaces to seperate packages | LINUX ONLY!]
 7: Run linux apt packages. [LINUX ONLY!]
+8: Check the current computer resource usage.
 """)
 
-    choice = Prompt.ask("[red]Please enter your choice: ")
+    try:
 
-    choices = ['1', '2', '3', '4', '5', '6', '7']
+        choice = Prompt.ask("[red]Please enter your choice: ")
 
-    if choice not in choices:
-        print("[red]Please enter a valid choice.")
-        sleep(2)
-        selscreen()
-    else:
-        if choice == '1':
-            print("[red]The date and time is:")
-            system('date')
+        choices = ['1', '2', '3', '4', '5', '6', '7', '8']
+
+        if choice not in choices:
+            print("[red]Please enter a valid choice.")
             sleep(2)
             selscreen()
-        if choice == '2':
-            animation = 'Launching terminal......\n'
+        else:
+            if choice == '1':
+                print("[red]The date and time is:")
+                system('date')
+                sleep(2)
+                selscreen()
+            if choice == '2':
+                animation = 'Launching terminal......\n'
             
-            for chars in animation:
-                print("[red]{}".format(chars), end='')
-                sleep(0.15)
-        if choice == '3':
-            print("[red]This feature is not working yet.")
-            sleep(2)
-            selscreen()
-        if choice == '4':
-            import subprocess as sp
-            print("[red]The current IP address is:")
-            ip = sp.getoutput('curl ifconfig.me')
-            ip = ip.split('\n')[-1]
-            print('[red]{}'.format(ip))
-            sleep(2)
-            selscreen()
-        if choice == '5':
-            packages = Prompt.ask("[red]Enter packages you would like to install [list multiple packages with a space]: ")
-            for package in packages:
-                print("[red]Installing {}...".format(package))
-                sleep(1)
-                system('pip3 install {}'.format(package))
-            sleep(2)
-            selscreen()
-        if choice == '6':
-            packages = Prompt.ask("[red]Enter packages you would like to install [list multiple packages with a space]: ")
-            print("[red]Attempting to install packages...")
+                for chars in animation:
+                    print("[red]{}".format(chars), end='')
+                    sleep(0.15)
+            if choice == '3':
+                print("[red]This feature is not working yet.")
+                sleep(2)
+                selscreen()
+            if choice == '4':
+                import subprocess as sp
+                print("[red]The current IP address is:")
+                ip = sp.getoutput('curl ifconfig.me')
+                ip = ip.split('\n')[-1]
+                print('[red]{}'.format(ip))
+                sleep(2)
+                selscreen()
+            if choice == '5':
+                packages = Prompt.ask("[red]Enter packages you would like to install [list multiple packages with a space]: ")
+                for package in packages:
+                    print("[red]Installing {}...".format(package))
+                    sleep(1)
+                    system('pip3 install {}'.format(package))
+                sleep(2)
+                selscreen()
+            if choice == '6':
+                packages = Prompt.ask("[red]Enter packages you would like to install [list multiple packages with a space]: ")
+                print("[red]Attempting to install packages...")
 
-            try:
-                system('apt-get install {}'.format(packages))
-            except:
-                print("[red]Please run this command as root.")
+                try:
+                    system('apt-get install {}'.format(packages))
+                except:
+                    print("[red]Please run this command as root.")
+                    sleep(2)
+                    selscreen()
                 sleep(2)
                 selscreen()
-            sleep(2)
-            selscreen()
-        if choice == '7':
-            package = Prompt.ask("[red]Enter package you would like to run: ")
-            print('[red]Please note: You must run this command as root and make sure the package is installed otherwise you will get a error like: /bin/sh: x not fount.')
+            if choice == '7':
+                package = Prompt.ask("[red]Enter package you would like to run: ")
+                print('[red]Please note: You must run this command as root and make sure the package is installed otherwise you will get a error like: /bin/sh: x not fount.')
 
-            try:
-                system(f'{package}')
+                try:
+                    system(f'{package}')
+                    sleep(2)
+                    selscreen()
+                except:
+                    print("[red]Please run this command as root.")
+                    sleep(2)
+                    selscreen()
+            if choice == '8':
+                cpu = psutil.cpu_percent()
+                ram = psutil.virtual_memory()
+                disk = psutil.disk_usage('/')
+                cores = psutil.cpu_count()
+
+                print("[red]CPU usage: {}%".format(cpu))
+                print("[red]RAM usage: {}%".format(ram.percent))
+                print("[red]Disk usage: {}%".format(disk.percent))
+                print("[red]Number of cores: {}".format(cores))
+                print("[red] Creating resource usage graph...")
+                
+                # Create a graph of the resource usage
+                import matplotlib.pyplot as plt
+                import numpy as np
+                import matplotlib.animation as animation
+
+                fig = plt.figure()
+                ax1 = fig.add_subplot(1,1,1)
+                
+                def animate(i):
+                    cpu = psutil.cpu_percent()
+                    ram = psutil.virtual_memory()
+                    disk = psutil.disk_usage('/')
+                    cores = psutil.cpu_count()
+
+                    data = [cpu, ram.percent, disk.percent, cores]
+                    ax1.clear()
+                    ax1.plot(data)
+                
+                ani = animation.FuncAnimation(fig, animate, interval=1000)
+                plt.show()
+
                 sleep(2)
                 selscreen()
-            except:
-                print("[red]Please run this command as root.")
-                sleep(2)
-                selscreen()
+
+
+    except KeyboardInterrupt:
+        char = 'Exiting.....'
+        for chars in char:
+            print("[red]{}".format(chars), end='')
+            sleep(0.15)
+            exit()
 
 selscreen()
