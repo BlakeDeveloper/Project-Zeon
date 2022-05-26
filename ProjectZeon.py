@@ -39,8 +39,10 @@ Please select a option from the menu below:
             selscreen()
         else:
             if choice == '1':
+                import subprocess
                 print("[red]The date and time is:")
-                system('date')
+                dt = subprocess.getoutput("date")
+                print('[red]{}'.format(dt))
                 sleep(2)
                 selscreen()
             if choice == '2':
@@ -103,29 +105,6 @@ Please select a option from the menu below:
                 print("[red]RAM usage: {}%".format(ram.percent))
                 print("[red]Disk usage: {}%".format(disk.percent))
                 print("[red]Number of cores: {}".format(cores))
-                print("[red] Creating resource usage graph...")
-                
-                # Create a graph of the resource usage
-                import matplotlib.pyplot as plt
-                import numpy as np
-                import matplotlib.animation as animation
-
-                fig = plt.figure()
-                ax1 = fig.add_subplot(1,1,1)
-                
-                def animate(i):
-                    cpu = psutil.cpu_percent()
-                    ram = psutil.virtual_memory()
-                    disk = psutil.disk_usage('/')
-                    cores = psutil.cpu_count()
-
-                    data = [cpu, ram.percent, disk.percent, cores]
-                    ax1.clear()
-                    ax1.plot(data)
-                
-                ani = animation.FuncAnimation(fig, animate, interval=1000)
-                plt.show()
-
                 sleep(2)
                 selscreen()
 
