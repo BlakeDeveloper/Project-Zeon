@@ -1,0 +1,27 @@
+/* Import the ubuntu font from google*/
+@import url("https://fonts.googleapis.com/css?family=Ubuntu");
+
+
+html {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.527),rgba(0, 0, 0, 0.5)),url('https://wallpapers.com/images/high/minecraft-running-steve-character-s2kxfahyg30sob8q.jpg');
+    background-size: cover;
+    
+}
+
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1350px;
+    height: 635px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.container .content-box .content .header {
+    display: flex;
+    padding: calc(1000 - 1100) 0;
+    color: white;
+    font-size: 50px;
+    font-family: monospace;
+}

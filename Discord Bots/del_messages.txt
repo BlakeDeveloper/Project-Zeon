@@ -1,0 +1,5 @@
+BlakePrograms#0001 - sadasd - 12:48:02
+BlakePrograms#0001 - adf - 12:49:01
+BlakePrograms#0001 - t.del_messages - 12:49:03
+BlakePrograms#0001 - embed.add_field(name = 'User', value = f"{member.mention}", inline = False) - 12:53:02
+BlakePrograms#0001 - embed = discord.Embed(Title = f"{member}' deleted messages', color = 0x00ff00") - 12:54:36

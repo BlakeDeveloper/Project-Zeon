@@ -65,10 +65,8 @@ Please select a option from the menu below:
                 selscreen()
             if choice == '5':
                 packages = Prompt.ask("[red]Enter packages you would like to install [list multiple packages with a space]: ")
-                for package in packages:
-                    print("[red]Installing {}...".format(package))
-                    sleep(1)
-                    system('pip3 install {}'.format(package))
+                packages = packages.split(' ')
+                system('pip install {}'.format(' '.join(packages)))
                 sleep(2)
                 selscreen()
             if choice == '6':
